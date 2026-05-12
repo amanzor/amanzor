@@ -1,0 +1,120 @@
+name: Claude Auto-Fix
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  test-and-fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build & type-check
+        id: tests
+        run: npm run build 2>&1 | tee build-output.txt
+        continue-on-error: true
+
+      - name: Analyse failures and post diagnosis
+        if: steps.tests.outcome == 'failure'
+        id: diagnose
+        uses: anthropics/claude-code-base-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-sonnet-4-6
+          max_turns: "8"
+          allowed_tools: "Read,Bash(cat:*),Bash(grep:*),Bash(find:*)"
+          prompt: |
+            The CI build failed on PR #${{ github.event.pull_request.number }}.
+
+            Build output:
+            $(cat build-output.txt)
+
+            1. Read the relevant source files to understand the errors.
+            2. Write a clear Markdown diagnosis: what failed, why it failed, and the exact files/lines involved.
+            3. End your response with a "## Suggested Fix" section describing what code changes would resolve it.
+
+            Keep your response concise and actionable.
+
+      - name: Post diagnosis comment
+        if: steps.tests.outcome == 'failure' && steps.diagnose.outputs.conclusion == 'success'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const log = JSON.parse(fs.readFileSync('${{ steps.diagnose.outputs.execution_file }}', 'utf8'));
+            let diagnosis = '';
+            for (let i = log.length - 1; i >= 0; i--) {
+              if (log[i].role === 'assistant') {
+                const content = log[i].content;
+                diagnosis = Array.isArray(content)
+                  ? content.filter(b => b.type === 'text').map(b => b.text).join('\n')
+                  : content;
+                break;
+              }
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🔍 Claude CI Diagnosis\n\n${diagnosis}\n\n---\n*Claude will now attempt to generate a fix PR...*`
+            });
+
+      - name: Generate fix and open fix PR
+        if: steps.tests.outcome == 'failure'
+        uses: anthropics/claude-code-base-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-sonnet-4-6
+          max_turns: "20"
+          allowed_tools: "Read,Edit,Write,Bash(npm run build),Bash(git:*),Bash(find:*),Bash(grep:*)"
+          prompt: |
+            The CI build failed on PR #${{ github.event.pull_request.number }} on branch ${{ github.head_ref }}.
+
+            Build output:
+            $(cat build-output.txt)
+
+            Your job:
+            1. Read the failing files and understand the errors.
+            2. Make the minimal code changes to fix every error.
+            3. Run `npm run build` to verify the fix works.
+            4. Create a new branch named `fix/claude-${{ github.event.pull_request.number }}-$(date +%s)`.
+            5. Commit the changes with message: "fix: auto-fix CI failures from PR #${{ github.event.pull_request.number }}".
+            6. Push the branch.
+            7. Open a PR targeting `${{ github.head_ref }}` with title "fix: Claude auto-fix for PR #${{ github.event.pull_request.number }}" and a body describing what was changed and why.
+
+            Use `gh pr create` to open the PR. The GITHUB_TOKEN is available in the environment.
+          claude_env: |
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Mark success (no fix needed)
+        if: steps.tests.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '✅ **Build passed.** No fix needed.'
+            });
