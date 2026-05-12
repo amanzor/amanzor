@@ -98,6 +98,26 @@ export default function Testimonials() {
           </p>
         </motion.div>
 
+        {/* Stats strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-3 gap-4 mb-12"
+        >
+          {[
+            { value: "4.9/5", label: "Average Rating" },
+            { value: "500+", label: "Happy Clients" },
+            { value: "98%", label: "Would Recommend" },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-[#112240]/60 border border-[#1a3a6b]/50 rounded-2xl py-4 text-center">
+              <div className="text-2xl font-black gradient-text">{stat.value}</div>
+              <div className="text-[#8892a4] text-xs uppercase tracking-widest mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </motion.div>
+
         {/* Main testimonial */}
         <div className="relative min-h-[320px] flex items-center">
           <AnimatePresence custom={direction} mode="wait">

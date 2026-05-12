@@ -134,7 +134,7 @@ export default function Hero() {
       {/* Diagonal light streak */}
       <motion.div
         initial={{ opacity: 0, x: "-100%" }}
-        animate={{ opacity: [0, 0.06, 0], x: ["−100%", "200%"] }}
+        animate={{ opacity: [0, 0.06, 0], x: ["-100%", "200%"] }}
         transition={{ duration: 3, delay: 1.5, repeat: Infinity, repeatDelay: 8 }}
         className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent transform -rotate-12 scale-y-[20]"
       />
