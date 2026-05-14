@@ -105,23 +105,23 @@ export default function Footer() {
             <h4 className="text-[#f8f9fc] font-semibold mb-5 uppercase text-xs tracking-widest">Contact</h4>
             <ul className="space-y-4">
               <li>
-                <a href="tel:+18000000000" className="flex items-start gap-3 text-[#8892a4] hover:text-[#c9a84c] transition-colors group">
+                <a href="tel:+12392042208" className="flex items-start gap-3 text-[#8892a4] hover:text-[#c9a84c] transition-colors group">
                   <Phone className="w-4 h-4 text-[#c9a84c] mt-0.5 flex-shrink-0" />
                   <div>
-                    <div className="text-sm">+1 (800) 000-0000</div>
-                    <div className="text-xs text-[#8892a4]/60">Mon–Fri, 8am–6pm</div>
+                    <div className="text-sm">(239) 204-2208</div>
+                    <div className="text-xs text-[#8892a4]/60">Mon–Fri, 9am–6pm EST</div>
                   </div>
                 </a>
               </li>
               <li>
-                <a href="mailto:info@universalinsurancebroker.com" className="flex items-start gap-3 text-[#8892a4] hover:text-[#c9a84c] transition-colors">
+                <a href="mailto:admin@universalinsurancebroker.com" className="flex items-start gap-3 text-[#8892a4] hover:text-[#c9a84c] transition-colors">
                   <Mail className="w-4 h-4 text-[#c9a84c] mt-0.5 flex-shrink-0" />
-                  <span className="text-sm break-all">info@universalinsurancebroker.com</span>
+                  <span className="text-sm break-all">admin@universalinsurancebroker.com</span>
                 </a>
               </li>
               <li className="flex items-start gap-3 text-[#8892a4]">
                 <MapPin className="w-4 h-4 text-[#c9a84c] mt-0.5 flex-shrink-0" />
-                <span className="text-sm">Licensed Nationwide, USA</span>
+                <span className="text-sm">Lehigh Acres · Boca Raton · Doral, FL</span>
               </li>
             </ul>
 

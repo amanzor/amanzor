@@ -111,13 +111,13 @@ export default function Navbar() {
           {/* CTA */}
           <div className="hidden lg:flex items-center gap-3">
             <motion.a
-              href="tel:+1-800-000-0000"
+              href="tel:+12392042208"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
               className="text-sm text-[#8892a4] hover:text-[#c9a84c] transition-colors font-medium"
             >
-              (800) 000-0000
+              (239) 204-2208
             </motion.a>
             <motion.a
               href="#contact"

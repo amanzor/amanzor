@@ -5,10 +5,10 @@ import { useRef, useEffect as useReactEffect } from "react";
 import { Award, Users, TrendingUp, Clock } from "lucide-react";
 
 const stats = [
-  { icon: Clock, value: 20, suffix: "+", label: "Years of Experience", color: "#c9a84c" },
+  { icon: Clock, value: 9, suffix: "+", label: "Years in Business", color: "#c9a84c" },
   { icon: Users, value: 500, suffix: "+", label: "Clients Protected", color: "#e8c96a" },
   { icon: Award, value: 98, suffix: "%", label: "Client Satisfaction", color: "#c9a84c" },
-  { icon: TrendingUp, value: 50, suffix: "+", label: "Carrier Partners", color: "#e8c96a" },
+  { icon: TrendingUp, value: 15, suffix: "+", label: "Carrier Partners", color: "#e8c96a" },
 ];
 
 function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
@@ -76,10 +76,11 @@ export default function About() {
             </h2>
 
             <p className="text-[#8892a4] text-lg leading-relaxed mb-8">
-              Universal Insurance Broker has been serving families and businesses
-              for over two decades. We believe that great insurance isn&apos;t just
-              about policies — it&apos;s about peace of mind, knowing someone has your
-              back when it matters most.
+              Founded in 2016 and headquartered in Lehigh Acres, FL, Universal Insurance Broker
+              is an independent agency with three Florida locations serving clients across the
+              entire state. We work for <span className="text-[#c9a84c] font-semibold">you</span> — not
+              the insurance companies — shopping 15+ top carriers to find the best coverage at the
+              best price.
             </p>
 
             <div className="space-y-6">

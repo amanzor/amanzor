@@ -232,7 +232,7 @@ export default function Hero() {
                 </motion.a>
 
                 <motion.a
-                  href="tel:+1-800-000-0000"
+                  href="tel:+12392042208"
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.96 }}
                   className="flex items-center gap-2.5 px-8 py-4 border border-[#c9a84c]/30 hover:border-[#c9a84c] text-[#f8f9fc] font-semibold rounded-xl text-base hover:bg-[#c9a84c]/5 transition-all duration-300 backdrop-blur-sm"

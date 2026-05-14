@@ -2,7 +2,7 @@
 
 import { motion, useInView, useMotionValue, useSpring, useTransform, type Variants } from "framer-motion";
 import { useRef } from "react";
-import { Car, Home, Building2, ArrowRight, Shield, Star, Check } from "lucide-react";
+import { Car, Home, Building2, ArrowRight, Shield, Star, Check, CarFront } from "lucide-react";
 
 // 3-D tilt hook
 function useTilt() {
@@ -26,7 +26,7 @@ const services = [
     icon: Car,
     title: "Auto Insurance",
     tagline: "Drive with confidence",
-    description: "We compare top carriers to find you the best liability, collision, and comprehensive rates — saving you money without sacrificing protection.",
+    description: "We shop 15+ top Florida carriers to find you the best liability, collision, and comprehensive rates — saving you money without sacrificing protection.",
     features: ["Liability & Collision", "Comprehensive Coverage", "Uninsured Motorist", "Roadside Assistance", "Rental Reimbursement"],
     gradient: "from-[#0d1e35] to-[#112240]",
     glowColor: "rgba(26,58,107,0.5)",
@@ -36,8 +36,8 @@ const services = [
     icon: Home,
     title: "Home Insurance",
     tagline: "Protect your sanctuary",
-    description: "Safeguard your home, belongings, and liability with the right policy. We analyze your property and match it to the ideal coverage at the best value.",
-    features: ["Dwelling Coverage", "Personal Property", "Liability Protection", "Loss of Use", "Natural Disaster Add-ons"],
+    description: "Safeguard your Florida home, belongings, and liability with the right policy. We match your property to the ideal carrier at the best value.",
+    features: ["Dwelling Coverage", "Personal Property", "Liability Protection", "Loss of Use", "Hurricane & Flood Add-ons"],
     gradient: "from-[#1a2e18] to-[#112240]",
     glowColor: "rgba(201,168,76,0.25)",
     featured: true,
@@ -46,8 +46,18 @@ const services = [
     icon: Building2,
     title: "Commercial Insurance",
     tagline: "Business built on trust",
-    description: "Custom coverage for every business size. From general liability to workers' compensation, we build comprehensive packages that protect your enterprise.",
+    description: "Custom coverage for every Florida business. From general liability to workers' comp, we build comprehensive packages that protect your enterprise.",
     features: ["General Liability", "Commercial Property", "Workers' Compensation", "Business Interruption", "Cyber Liability"],
+    gradient: "from-[#0d1e35] to-[#112240]",
+    glowColor: "rgba(26,58,107,0.5)",
+    featured: false,
+  },
+  {
+    icon: CarFront,
+    title: "Auto Dealer Services",
+    tagline: "Built for dealerships",
+    description: "We place licensed agents inside dealerships to streamline the sales process, increase product penetration, and drive customer retention for car dealers.",
+    features: ["In-Dealership Agent Placement", "F&I Product Integration", "Customer Retention Programs", "Dealer-Branded Policies", "Same-Day Coverage"],
     gradient: "from-[#0d1e35] to-[#112240]",
     glowColor: "rgba(26,58,107,0.5)",
     featured: false,
@@ -203,7 +213,7 @@ export default function Services() {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="grid lg:grid-cols-3 gap-8 items-stretch"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch"
         >
           {services.map((service, i) => (
             <ServiceCard key={service.title} service={service} index={i} />
